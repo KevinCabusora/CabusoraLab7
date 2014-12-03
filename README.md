@@ -3,7 +3,7 @@ CabusoraLab7
 
 IR Sensing
 
-#Prelab
+##Prelab
 Include whatever information from this lab you think will be useful in creating your program.
 
 
@@ -20,10 +20,31 @@ Test your sensors with a DMM. Ensure they are functional. What would good refere
 
 
 Consider how you'll setup the ADC10 subsystem. What are the registers you'll need to use? Which bits in those registers are important? What's the initialization sequence you'll need?
-
+* I would first stop the watchdog timer, then enable the interrupts for the ADC10.
+  - These interrupts look like the following:
+  ```
+  ADC10CTL0 = ADC10SHT_3 + ADC10ON + ADC10IE; // ADC10ON, interrupt enabled
+  ```
+  - ADC10SHT_3 controls the amount of time per sample, which is as long as possible to prevent loading.  ADC10ON turns the subsystem on, and ADC10ON enables the interrupt.
+* I would next set the inputs.
+  ```
+  ADC10CTL1 = INCH_1;                       // input A0
+  ADC10AE0 |= BIT1; 
+  ADC10CTL1 = INCH_2;                       // input A1
+  ADC10AE0 |= BIT2;
+  ADC10CTL1 = INCH_3;                       // input A2
+  ADC10AE0 |= BIT3;
+  ```
+* Next I will set up the SMCLK to be the ADC clock source.
+* Next I will set P1.0 to the output direction; this will set the LEDs.
+* In regards to registers, we are dealing with bits 4-3, or the ADC10 clock source select.  We will also deal with bits 15-12 in INCHx, which are the input channel select controls; in particular A0, A1, and A2.
+* In a forever loop, I will then enable the core, in which control bits can only be modified when the core is disabled, then is told to begin a sample-and-conversion sequence.
+* In this loop we will next turn off the CPU and then enable the interrupts.  The purpose of the loop is to toggle the led whenever there is a sample detected.
 
 Consider the hardware interface. Which ADC10 channels will you use? Which pins correspond to those channels?
-* 
+* I will use three separate channels for the ADC10:  A1, A2, and A3.
+* Pins 3, 4, and 5 correspond to these channels.
+* Below is a diagram of what my connections will look like and which port goes into which sensor.
 
 Consider the interface you'll create to your sensors. Will you block or use interrupts? Will you convert one sensor at a time or multiple?
 * For this I will consider how I will have the robot move primarily.  I will have the robot continually sense for a certain distance in the center sensor, then stop.  From there it will measure both left and right.  If the left voltage is less than the right, for instance, then the robot will turn left 90 degrees, and then will revert to looking through the center sensor again.
