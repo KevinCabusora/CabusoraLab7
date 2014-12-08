@@ -1,12 +1,23 @@
 #include <msp430.h>
 #include "lab7.h"
 
+void initMSP430();
+
 /*
  * main.c
  */
 int main(void) {
-    WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
-	
+    IFG1=0;                                                     // clear interrupt flag1
+       WDTCTL = WDTPW + WDTHOLD;                                   // disable WDT
+
+       BCSCTL1 = CALBC1_8MHZ;                                      // 8MHz clock
+       DCOCTL = CALDCO_8MHZ;
+
+       P1DIR = BIT0|BIT6;                                               // Set the red LED as output
+
+       P1OUT = BIT0|BIT6;
+       P1OUT &= ~(BIT0|BIT6);
+
     while(1){
     	left();
     	middle();
