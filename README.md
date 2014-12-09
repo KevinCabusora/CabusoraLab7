@@ -50,3 +50,7 @@ Consider the interface you'll create to your sensors. Will you block or use inte
 * For this I will consider how I will have the robot move primarily.  I will have the robot continually sense for a certain distance in the center sensor, then stop.  From there it will measure both left and right.  If the left voltage is less than the right, for instance, then the robot will turn left 90 degrees, and then will revert to looking through the center sensor again.
 * I will use interrupts; when the voltage of the center sensor goes high then the robot will stop and turn.
 * I will probably convert one sensor at a time since all three sensors are not necessary at the same time for my design.
+
+Redone Voltage Readings (around 5 inches)
+
+Left sensor=1.35 V; Center sensor = 1.22 V; Right sensor = 1.69 V
