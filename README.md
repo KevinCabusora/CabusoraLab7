@@ -54,3 +54,57 @@ Consider the interface you'll create to your sensors. Will you block or use inte
 Redone Voltage Readings (around 5 inches)
 
 Left sensor=1.35 V; Center sensor = 1.22 V; Right sensor = 1.69 V
+
+## Required Functionality
+
+### Objective
+Use the ADC subsystem to light LEDs based on the presence of a wall. The presence of a wall next to the left sensor should light LED1 on your Launchpad board. The presence of a wall next to the right sensor should light LED2 on your Launchpad board. Demonstrate that the LEDs do not light until they come into close proximity with a wall.
+
+### Implementation/Design
+To perform this task, I began by looking through Dr. York's Lesson 36 code which was very helpful with using the adc subsystem to connect the robot's IR sensors to the MSP430.  Before that, though, I used a DMM to measure the voltage across the IR sensors when come into close proximity with a wall.  I used 5 inches from sensor to wall.
+
+Here are the values I received:
+* Redone Voltage Readings (around 5 inches)
+  - Left sensor=1.35 V
+  - Center sensor = 1.22 V
+  - Right sensor = 1.69 V
+With this I realized my sensors were working properly and with this I realized that some sensors had a higher threshold than others.
+
+Using Dr. York's Lesson 36 code, I made subroutines for all three sensors.  Below is the process I used for the left sensor, very similar to the Lesson 36 code.
+```
+void left()
+{
+	ADC10CTL0 = ADC10SHT_3 + ADC10ON + ADC10IE;
+	ADC10CTL1 = INCH_1;
+	ADC10AE0 |= BIT1;
+	ADC10CTL1 |= ADC10SSEL1|ADC10SSEL0;
+	P1DIR |= BIT0;
+
+		ADC10CTL0 |= ENC + ADC10SC;
+		__bis_SR_register(CPUOFF + GIE);
+		if (ADC10MEM < 0x200)
+			P1OUT &= ~BIT0;
+
+		else
+			P1OUT |= BIT0;
+	return 0;
+}
+```
+
+I did similar subroutines for the middle and right sensors.  The idea here was that the left IR sensor would trigger the left (red) LED, and right would trigger the green LED and middle would trigger both.
+
+Next I chose my ports.  I picked P1.1, P1.2, and P1.3 initially.  I then tested my code.
+
+###Testing
+Initial testing of finding to sensor readings involved, as stated before, plugging a DMM to each sensor.  I did this by plugging a wire into an IR sensor port (left middle or right) and then plugging another lead into ground.  I played around with the angle of the IR sensors to make sure they were each consistently giving the same readings.
+
+To test the robot, I put it in the maze to sense the walls in order to keep voltage readings consistent to what they would be for Lab 8.  Successful testing would result in the red led on for the left sensor, both for the front sensor, and the green led for the right sensor.
+
+####Debugging
+I found out that both of my sensors would stay on, and only the right would go slightly brighter if held to the threshold.  After testing everything and messing with the ADC10MEM constants I set, I realized that it was no voltage or anything that I set, but instead the ports I chose.  Apparently they coincided with the LED's being on all the time.  Therefore I moved my pins down to P1.2, P1.3, and P1.4, but my red LED was stuck on.  Moving down one more to P1.3, P1.4 and P1.5 led to success.  I never figured out why P1.1 and P1.2 would not work but went along anyway.  A huge problem impending early submissal of this lab involved Code Composer not recognizing the USB FET.  A simple restart of the whole computer solved this problem.
+
+###Demonstration
+I demoed the lab to Captain Trimble on 9 Sept 2014 and was checked off.
+
+##Documentation
+The lesson 36 code on the ece382 website was extremely useful in creating my code.  C2C Eric Wardner helped me out with thesting for the prelab.
