@@ -103,8 +103,29 @@ To test the robot, I put it in the maze to sense the walls in order to keep volt
 ####Debugging
 I found out that both of my sensors would stay on, and only the right would go slightly brighter if held to the threshold.  After testing everything and messing with the ADC10MEM constants I set, I realized that it was no voltage or anything that I set, but instead the ports I chose.  Apparently they coincided with the LED's being on all the time.  Therefore I moved my pins down to P1.2, P1.3, and P1.4, but my red LED was stuck on.  Moving down one more to P1.3, P1.4 and P1.5 led to success.  I never figured out why P1.1 and P1.2 would not work but went along anyway.  A huge problem impending early submissal of this lab involved Code Composer not recognizing the USB FET.  A simple restart of the whole computer solved this problem.
 
+##B Functionality
+
+###Objective
+Make a standalone library for the ADC code.
+
+###Implementation
+Basically just put my ADC code into another library.
+
+##A Functionality
+
+### Objective
+The objective here was to create a table and plot of the ATD values for all three IR sensors given certain distances.  This was done in order to give a snapshot of how to robot is expected to perform in the maze.
+
+### Implementation
+This basically consisted of taking the robot into the maze and measuring the voltages via Code Composer from certain distances from a wall.  
+
+Below is a table of the distances used and the voltages received.  Note the hex values; this was what Code Composer output as the signals it received from the IR sensors.  I also made a graph below representing the data.
+
+![A Functionality](https://github.com/KevinCabusora/CabusoraLab7/blob/master/AFunctionality.PNG)
+
 ###Demonstration
 I demoed the lab to Captain Trimble on 9 Sept 2014 and was checked off.
 
 ##Documentation
 The lesson 36 code on the ece382 website was extremely useful in creating my code.  C2C Eric Wardner helped me out with thesting for the prelab.
+
