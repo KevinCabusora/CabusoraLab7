@@ -68,7 +68,9 @@ Here are the values I received:
   - Left sensor=1.35 V
   - Center sensor = 1.22 V
   - Right sensor = 1.69 V
-With this I realized my sensors were working properly and with this I realized that some sensors had a higher threshold than others.
+  
+  
+With this I realized my sensors were working properly and I realized that some sensors had a higher threshold than others.
 
 Using Dr. York's Lesson 36 code, I made subroutines for all three sensors.  Below is the process I used for the left sensor, very similar to the Lesson 36 code.
 ```
@@ -103,6 +105,8 @@ To test the robot, I put it in the maze to sense the walls in order to keep volt
 ####Debugging
 I found out that both of my sensors would stay on, and only the right would go slightly brighter if held to the threshold.  After testing everything and messing with the ADC10MEM constants I set, I realized that it was no voltage or anything that I set, but instead the ports I chose.  Apparently they coincided with the LED's being on all the time.  Therefore I moved my pins down to P1.2, P1.3, and P1.4, but my red LED was stuck on.  Moving down one more to P1.3, P1.4 and P1.5 led to success.  I never figured out why P1.1 and P1.2 would not work but went along anyway.  A huge problem impending early submissal of this lab involved Code Composer not recognizing the USB FET.  A simple restart of the whole computer solved this problem.
 
+####Diagram
+
 ##B Functionality
 
 ###Objective
@@ -127,5 +131,5 @@ Below is a table of the distances used and the voltages received.  Note the hex 
 I demoed the lab to Captain Trimble on 9 Sept 2014 and was checked off.
 
 ##Documentation
-The lesson 36 code on the ece382 website was extremely useful in creating my code.  C2C Eric Wardner helped me out with thesting for the prelab.
+The lesson 36 code on the ece382 website was extremely useful in creating my code.  C2C Eric Wardner helped me out with testing for the prelab.  
 
