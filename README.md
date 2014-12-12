@@ -113,7 +113,10 @@ I found out that both of my sensors would stay on, and only the right would go s
 Make a standalone library for the ADC code.
 
 ###Implementation
-Basically just put my ADC code into another library.
+Basically just put my ADC code into another library.  Dr. Coulston helped me out by suggesting I store each sensor's values in expressions l, m and r, which was very useful for Part A functionality.
+
+###Testing
+Posted to GitHub; pending grading.
 
 ##A Functionality
 
@@ -131,5 +134,5 @@ Below is a table of the distances used and the voltages received.  Note the hex 
 I demoed the lab to Captain Trimble on 9 Sept 2014 and was checked off.
 
 ##Documentation
-The lesson 36 code on the ece382 website was extremely useful in creating my code.  C2C Eric Wardner helped me out with testing for the prelab.  
+The lesson 36 code on the ece382 website was extremely useful in creating my code.  C2C Eric Wardner helped me out with testing for the prelab.  Dr. Coulston suggested how to do Part A and Part B of the lab.
 
